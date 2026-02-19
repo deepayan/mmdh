@@ -13,8 +13,8 @@ Description: The Ministry of Statistics and Programme Implementation
 	     in various formats, but cannot be redistributed because
 	     individual registration is required before the data can
 	     be used. This package provides a collection of functions
-	     and datasets that may be useful in preprocessing the data
-	     after it has been downloaded. 
+	     and metadata that may be useful in preprocessing the data
+	     after it has been downloaded.
 LazyData: yes
 License: GPL-3
 Imports: foreign
