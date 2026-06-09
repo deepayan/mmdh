@@ -244,25 +244,25 @@ hces202223_files
 |Unit level data of HCES 2022-23 round.zip           |VW5pdCBsZXZlbCBkYXRhIG9mIEhDRVMgMjAyMi0yMyByb3VuZC56aXA=             |116.95 MB |
 
 
+### Download files
+
+To download a specific file, one must specify both the `idno` and the
+`base64` value in the table above. One must also explicitly specify
+the destination file name (which need not be the same as the `name`
+column in the table above) and optionally the destination folder.
 
 ```r
 download_file(id = "DDI-IND-MOSPI-NSSO-HCES22-23",
-              name = "tabulation_state_code (2).xlsx",
               base64 = "dGFidWxhdGlvbl9zdGF0ZV9jb2RlICgyKS54bHN4",
-              folder_path = "./hces22-23")
+              destfile = "./hces22-23/tabulation_state_code.xlsx")
 download_file(id = "DDI-IND-MOSPI-NSSO-HCES22-23",
-              name = "Unit level data of HCES 2022-23 round.zip",
               base64 = "VW5pdCBsZXZlbCBkYXRhIG9mIEhDRVMgMjAyMi0yMyByb3VuZC56aXA=",
-              folder_path = "./hces22-23")
+              destfile = "HCES-2022-23.zip",
+              destfolder = "./hces22-23")
 list.files("./hces22-23")
 ```
 
 ```
-[1] "tabulation_state_code (2).xlsx"            "Unit level data of HCES 2022-23 round.zip"
+[1] "HCES-2022-23.zip"           "tabulation_state_code.xlsx"
 ```
-
-
-
-
-
 

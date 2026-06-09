@@ -109,14 +109,18 @@ list_files <-
 
 #' Download a single file from a dataset
 download_file <-
-    function(id, name, base64,
-             folder_path,
+    function(id, base64,
+             destfile, destfolder = ".",
              api_key = Sys.getenv("MOSPI_API_KEY"))
 {
-    dir.create(folder_path, showWarnings = FALSE, recursive = TRUE)
     url <- paste0(BASE_URL, "/fileslist/download/", id, "/", base64)
-    file_path <- file.path(folder_path, name)
-    
+    if (identical(destfile, basename(destfile))) { # use destfolder
+        destfile <- file.path(destfolder, destfile)
+    }
+    else {
+        destfolder <- dirname(destfile)
+    }
+    dir.create(destfolder, showWarnings = FALSE, recursive = TRUE)
     req <- request(url) |> req_headers("X-API-KEY" = api_key)
     
     tryCatch({
@@ -126,12 +130,12 @@ download_file <-
                 max_tries = MAX_RETRIES,
                 backoff = function(attempt) RETRY_DELAY * attempt
             ) |> 
-            req_perform(path = file_path)
+            req_perform(path = destfile)
         
-        message(paste("Downloaded:", file_path))
-        return(file_path)
+        message(paste("Downloaded:", destfile))
+        return(destfile)
     }, error = function(e) {
-        message(paste0("Error downloading '", name, "': ", e$message))
+        message(paste0("Error downloading target with base64='", base64, "': ", e$message))
         return(NULL)
     })
 }
