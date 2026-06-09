@@ -24,10 +24,10 @@ approval from MoSPI. See
 details.
 
 The goal of this package is to provide helper functions to preprocess
-the data to make it ready for further analysis in R. Unfortunately,
-the details of what is available, including the data format, vary
-substantially from one survey to another, so this process will need to
-be tailored accordingly.
+the data to make it ready for further analysis in R _after_ it has
+been downloaded. Unfortunately, the details of what is available,
+including the data format, vary substantially from one survey to
+another, so this process will need to be tailored accordingly.
 
 ## API usage
 
@@ -37,7 +37,14 @@ also be downloaded through a web API [described
 here](https://microdata.gov.in/NADA/api-documentation/catalog/). In
 either case, you will need to register first. To use the API, you will
 need to generate an API key by going to your "Profile" page once you
-are logged into the MoSPI microdata portal.
+are logged into the MoSPI microdata portal. 
+
+The following functions in this package wrap the relevant API calls
+inside R functions to provide a convenient way to download these files
+from R. Note that this is simply an alternative to downloading the
+files directly from the website, and does not provide access to any
+additional material.
+
 
 ### Setup
 
