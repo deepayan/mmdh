@@ -12,10 +12,32 @@ remotes::install_github("deepayan/mmdh")
 The `remotes` package neeeds to be installed first (it is available on
 CRAN).
 
+## Background
+
+The Ministry of Statistics and Programme Implementation (MoSPI), Govt
+of India, makes anonymized unit-level data (aka microdata) from many
+of its surveys [available online](https://microdata.gov.in/).
+Registration is required for access to the data, which may not be
+shared with any other individual or organization without prior
+approval from MoSPI. See
+[here](https://microdata.gov.in/NADA/index.php/dissemination) for
+details.
+
+The goal of this package is to provide helper functions to preprocess
+the data to make it ready for further analysis in R. Unfortunately,
+the details of what is available, including the data format, vary
+substantially from one survey to another, so this process will need to
+be tailored accordingly.
 
 ## API usage
 
-See <https://microdata.gov.in/NADA/api-documentation/catalog/>
+The files available on the MoSPI [microdata
+portal](https://microdata.gov.in/) can be downloaded manually, but can
+also be downloaded through a web API [described
+here](https://microdata.gov.in/NADA/api-documentation/catalog/). In
+either case, you will need to register first. To use the API, you will
+need to generate an API key by going to your "Profile" page once you
+are logged into the MoSPI microdata portal.
 
 ### Setup
 
