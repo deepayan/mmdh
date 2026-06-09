@@ -17,4 +17,4 @@ Description: The Ministry of Statistics and Programme Implementation
 	     after it has been downloaded.
 LazyData: yes
 License: GPL-3
-Imports: foreign
+Imports: foreign, httr2
