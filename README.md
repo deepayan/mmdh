@@ -32,12 +32,13 @@ another, so this process will need to be tailored accordingly.
 ## API usage
 
 The files available on the MoSPI [microdata
-portal](https://microdata.gov.in/) can be downloaded manually, but can
-also be downloaded through a web API [described
+portal](https://microdata.gov.in/) can be downloaded manually, but
+they can also be downloaded through a web API [described
 here](https://microdata.gov.in/NADA/api-documentation/catalog/). In
-either case, you will need to register first. To use the API, you will
-need to generate an API key by going to your "Profile" page once you
-are logged into the MoSPI microdata portal. 
+either case, you will need to register first to download the
+unit-level data files. To use the API, you will need to generate an
+API key by going to your "Profile" page once you are logged into the
+MoSPI microdata portal.
 
 The following functions in this package wrap the relevant API calls
 inside R functions to provide a convenient way to download these files
@@ -50,10 +51,11 @@ additional material.
 
 ```r
 library(mmdh)
-Sys.setenv(MOSPI_API_KEY = "your-api-key")
 ```
 
 ### List available datasets
+
+
 
 ```r
 dlist <- list_datasets()
@@ -248,11 +250,14 @@ dlist
 
 ### List files in a dataset
 
+
+
 The `idno` column in the table above can be used to request the list
 of files for a specific dataset.
 
 
 ```r
+Sys.setenv(MOSPI_API_KEY = "your-api-key")
 hces202223_files = list_files("DDI-IND-MOSPI-NSSO-HCES22-23")
 hces202223_files
 ```

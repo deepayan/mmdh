@@ -3,6 +3,8 @@ BASE_URL <- "https://microdata.gov.in/NADA/index.php/api"
 MAX_RETRIES <- 5
 RETRY_DELAY <- 5 # seconds
 
+## Utilities
+
 set_api_key <- function(key)
 {
     Sys.setenv("MOSPI_API_KEY" = key)
@@ -14,27 +16,42 @@ add_key <- function(x, key)
     else x
 }
 
-#' Make an HTTP request with automatic retry on 401/5xx errors
-.request_with_retry <- function(req) {
-    ## Configure retries matching Python's exponential backoff-ish behavior
-    ## httr2 handles 429 and 5xx by default, we add 401 to the transient status codes
-    req |> 
-        req_retry(
-            max_tries = MAX_RETRIES,
-            backoff = function(attempt) RETRY_DELAY * attempt,
-            is_transient = function(resp) {
-                resp_status(resp) %in% c(401, 429, 500, 502, 503, 504)
-            }
-        ) |> 
-        req_perform()
+add_query <- function(x, ...)
+{
+    req_url_query(x, ...)
 }
 
+
+## convert list to data frame for easier post-processing
+
+dataset2df <- function(x, na.string = "") {
+    n <- sapply(x, length)
+    if (any(n > 1)) stop("Expected 1 row, found ", max(n))
+    for (i in which(n == 0))
+        x[[i]] <- na.string
+    list2DF(x)
+}
+
+
+## Make an HTTP request with automatic retry on 401/5xx errors
+
+.request_with_retry <- function(req, ...)
+{
+    req <-
+        req_retry(req,
+                  max_tries = MAX_RETRIES,
+                  backoff = function(attempt) RETRY_DELAY * attempt,
+                  is_transient = function(resp) {
+                      resp_status(resp) %in% c(401, 429, 500, 502, 503, 504)
+                  })
+    req_perform(req, ...)
+}
+
+
 #' Fetch a single page of datasets from the API
-.fetch_page <- function(api_key, page) {
-    req <- request(paste0(BASE_URL, "/listdatasets")) |>
-        req_headers("X-API-KEY" = api_key) |>
-        req_url_query(page = page)
-    
+.fetch_page <- function(api_key, page)
+{
+    req <- request(paste0(BASE_URL, "/listdatasets")) |> add_key(api_key) |> add_query(page = page)
     tryCatch({
         resp <- .request_with_retry(req)
         resp_check_status(resp) 
@@ -46,18 +63,27 @@ add_key <- function(x, key)
 }
 
 
-dataset2df <- function(x, na.string = "") {
-    n <- sapply(x, length)
-    if (any(n > 1)) stop("Expected 1 row, found ", max(n))
-    for (i in which(n == 0))
-        x[[i]] <- na.string
-    list2DF(x)
-}
 
 
 #' List datasets from the MoSPI Microdata Portal
+#'
+#' An API key is required for most operations (although not for
+#' obtaining the list of available datasets). To obtain a key, one
+#' must first register at the MoSPI portal.
+#' 
+#' @param page Scalar integer, specifying the page to be downloaded
+#'     (each page has a limited number of results). If missing, all
+#'     pages are downloaded and combined.
+#' @param as_data_frame Logical, specifying whether the result should
+#'     be converted into a data frame (default) or retained as a
+#'     nested list.
+#' @param na.string Character string. When converting into data
+#'     frames, missing values in certain 'columns' are replaced by
+#'     this value to create a valid data frame.
+#' @param api_key The API key to be used.
+#'
 list_datasets <-
-    function(page = NULL, na.string = "", as_data_frame = TRUE,
+    function(page = NULL, as_data_frame = TRUE, na.string = "", 
              api_key = Sys.getenv("MOSPI_API_KEY"))
 {
     if (!is.null(page)) {
@@ -94,7 +120,7 @@ list_files <-
              api_key = Sys.getenv("MOSPI_API_KEY"))
 {
     url <- paste0(BASE_URL, "/datasets/", id, "/fileslist")
-    req <- request(url) |> req_headers("X-API-KEY" = api_key)
+    req <- request(url) |> add_key(api_key)
     
     tryCatch({
         resp <- .request_with_retry(req)
@@ -125,21 +151,15 @@ download_file <-
         destfolder <- dirname(destfile)
     }
     dir.create(destfolder, showWarnings = FALSE, recursive = TRUE)
-    req <- request(url) |> req_headers("X-API-KEY" = api_key)
+    req <- request(url) |> add_key(api_key)
     
     tryCatch({
         ## Directly stream the download to disk
-        resp <- req |> 
-            req_retry(
-                max_tries = MAX_RETRIES,
-                backoff = function(attempt) RETRY_DELAY * attempt
-            ) |> 
-            req_perform(path = destfile)
-        
-        message(paste("Downloaded:", destfile))
+        .request_with_retry(req, path = destfile)
+        message("Downloaded: ", destfile)
         return(destfile)
     }, error = function(e) {
-        message(paste0("Error downloading target with base64='", base64, "': ", e$message))
+        message("Error downloading target with base64='", base64, "': ", e$message)
         return(NULL)
     })
 }
