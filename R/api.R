@@ -1,14 +1,18 @@
 
-
+BASE_URL <- "https://microdata.gov.in/NADA/index.php/api"
+MAX_RETRIES <- 5
+RETRY_DELAY <- 5 # seconds
 
 set_api_key <- function(key)
 {
     Sys.setenv("MOSPI_API_KEY" = key)
 }
 
-BASE_URL <- "https://microdata.gov.in/NADA/index.php/api"
-MAX_RETRIES <- 5
-RETRY_DELAY <- 5 # seconds
+add_key <- function(x, key)
+{
+    if (nzchar(key)) req_headers(x, "X-API-KEY" = api_key)
+    else x
+}
 
 #' Make an HTTP request with automatic retry on 401/5xx errors
 .request_with_retry <- function(req) {
