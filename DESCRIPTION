@@ -6,15 +6,18 @@ Title: Helper Functions for MoSPI Microdata
 Authors@R: person("Deepayan", "Sarkar", role = c("aut", "cre"),
 	          email = "deepayan.sarkar@r-project.org",
 	          comment = c(ORCID = "0000-0003-4107-1553"))
+
 Description: The Ministry of Statistics and Programme Implementation
 	     (MoSPI), Government of India, releases anonymized
 	     microdata for various sample surveys it conducts. The
 	     public-use data are available from the ministry website
 	     in various formats, but cannot be redistributed because
 	     individual registration is required before the data can
-	     be used. This package provides a collection of functions
-	     and metadata that may be useful in preprocessing the data
-	     after it has been downloaded.
+	     be used. This package provides tools to download the data
+	     through a web API after registration, API access a
+	     collection of functions and metadata that may be useful
+	     in preprocessing the data after it has been downloaded.
+
 LazyData: yes
 License: GPL-3
 Imports: foreign, httr2
