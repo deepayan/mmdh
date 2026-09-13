@@ -6,6 +6,7 @@ This package is currently in development, and can only be obtained
 from GitHub. To install, run
 
 ```r
+## install.packages("remotes") # if not installed
 remotes::install_github("deepayan/mmdh")
 ```
 
@@ -300,3 +301,15 @@ list.files("./hces22-23")
 [1] "HCES-2022-23.zip"           "tabulation_state_code.xlsx"
 ```
 
+## Post-processing
+
+The microdata for different surveys, and even for different rounds of
+the same survey, are disseminated in different formats. Often there is
+significant duplication of information across files. Our eventual goal
+is to provide tools to preprocess the downloaded data into some
+standardized format which can serve as the basis for further
+analysis. However, this is a task that needs to be customized for each
+individual survey.
+
+Currently there are only some preliminary tools that may be useful for
+recent HCES surveys.

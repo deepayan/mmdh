@@ -1,3 +1,4 @@
+## Based on official Python API (https://www.mospi.gov.in/unitdata-python-library)
 
 BASE_URL <- "https://microdata.gov.in/NADA/index.php/api"
 MAX_RETRIES <- 5
