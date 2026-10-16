@@ -16,6 +16,6 @@ Description: The Ministry of Statistics and Programme Implementation
 	     through a web API after registration. It also includes
 	     functions and metadata that may be useful in
 	     preprocessing the data after it has been downloaded.
-LazyData: yes
+LazyData: no
 License: GPL-3
 Imports: foreign, httr2
