@@ -1,4 +1,4 @@
-SlNo,State / UT (st_code),code,description,serial,District,dist_code 
+NR_no,StateUT_with_code,NSS_Region_code,description,dist_no,district,district_code 
 1,Andaman &,351,Andaman &,1,Nicobars,(01)
 ,Nicobar Islands,,Nicobar,2,North & Middle Andaman,(02)
 ,(35),,Islands,3,South Andaman,(03)

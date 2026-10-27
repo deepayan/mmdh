@@ -1,5 +1,4 @@
-SlNo,State / UT (st_code),code,description,serial,District,dist_code 
-,,,,,,
+NR_no,StateUT_with_code,NSS_Region_code,description,dist_no,district,district_code 
 1,Andaman & Nicobar Islands (35),351,Andaman & Nicobar Islands,1,Nicobars,(01)
 ,,,,2,North & Middle Andaman,(02)
 ,,,,3,South Andaman,(03)
@@ -32,7 +31,6 @@ SlNo,State / UT (st_code),code,description,serial,District,dist_code
 ,,,,30,Lower Dibang Valley,(14)
 ,,,,31,Lohit,(15)
 ,,,,32,Anjaw,(16)
-
 6,Assam,181,Plains,33,Lakhimpur,(08)
 ,(18),,Eastern,34,Dhemaji,(09)
 ,,,,35,Tinsukia,(10)
@@ -60,7 +58,6 @@ SlNo,State / UT (st_code),code,description,serial,District,dist_code
 ,,,Plains,57,Sonitpur,(07)
 ,,,,58,Darrang,(26)
 ,,,,59,Udalguri,(27)
-
 10,Bihar,101,Northern,60,Pashchim Champaran,(01)
 ,(10),,,61,Purba Champaran,(02)
 ,,,,62,Sheohar,(03)
@@ -82,7 +79,6 @@ SlNo,State / UT (st_code),code,description,serial,District,dist_code
 ,,,,78,Samastipur,(19)
 ,,,,79,Begusarai,(20)
 ,,,,80,Khagaria,(21)
-
 11,,102,Central,81,Bhagalpur,(22)
 ,,,,82,Banka,(23)
 ,,,,83,Munger,(24)

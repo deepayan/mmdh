@@ -1,1 +1,1 @@
-census2011A01_District <- read.csv("census2011A01_District.csv")
+source(".csvutils.R"); csv2var("census2011A01_District")
