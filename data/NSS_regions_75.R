@@ -1,1 +1,1 @@
-source(".csvutils.R"); nss2var("NSS_regions_75.csv")
+source(".csvutils.R"); nss2var("NSS_regions_75")

@@ -4,7 +4,7 @@
 
 csv2var <- function(var, ...) {
     file <- paste0(var, ".csv")
-    read.csv(file, ...) |> assign(var, pos = parent.frame())
+    read.csv(file, ...) |> assign(x = var, pos = parent.frame())
 }
 
 
@@ -84,6 +84,6 @@ nssCleanup <- function(file, ...) {
 
 nss2var <- function(var, ...) {
     file <- paste0(var, ".csv")
-    nssCleanup(file, ...) |> assign(var, pos = parent.frame())
+    nssCleanup(file, ...) |> assign(x = var, pos = parent.frame())
 }
 
