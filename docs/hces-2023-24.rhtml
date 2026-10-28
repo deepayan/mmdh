@@ -12,7 +12,7 @@ prior to running the code in this document.
 ```{r}
 library(mmdh)
 ## confirm ID no
-dlist <- list_datasets(api_key = Sys.getenv("MOSPI_API_KEY"))
+dlist <- list_datasets()
 subset(dlist, grepl("hces", idno, ignore.case = TRUE))
 ```
 
@@ -24,7 +24,31 @@ hces202324_files <- list_files("DDI-IND-MOSPI-NSS-HCES23-24")
 hces202324_files
 ```
 
-  
+As we can see, the data are available in several formats. We will use
+the SPSS format files.
+
+```{r}
+DESTDIR <- "HCES23-24"
+ZIPFILE <- file.path(DESTDIR, "HCES_Data_2023-24_SPSS.zip")
+if (!dir.exists(DESTDIR)) dir.create(DESTDIR)
+download_file(id = "DDI-IND-MOSPI-NSS-HCES23-24",
+              base64 = "SENFU19EYXRhXzIwMjMtMjRfU1BTUy56aXA",
+              destfile = ZIPFILE)
+list.files(DESTDIR)
+```
+ 
+Next we unzip the downloaded file.
+
+```{r}
+unzip(ZIPFILE, exdir = DESTDIR)
+list.files(DESTDIR)
+(savfiles <- list.files(file.path(DESTDIR, "HCES_Data_2023-24_SPSS")))
+```
+
+Our next task is to read these files, clean them up, remove repeated
+columns, and save them in the R binary format. First, we renames these
+files.
+
 
 </textarea>
 </html>
