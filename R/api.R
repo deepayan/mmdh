@@ -13,7 +13,7 @@ set_api_key <- function(key)
 
 add_key <- function(x, key)
 {
-    if (nzchar(key)) req_headers(x, "X-API-KEY" = api_key)
+    if (nzchar(key)) req_headers(x, "X-API-KEY" = key)
     else x
 }
 

@@ -1,0 +1,37 @@
+<!DOCTYPE html><script src="https://cdn.jsdelivr.net/npm/texme@1.2.2"></script>
+<textarea>
+
+
+This document outlines how the __mmdh__ package can be used to
+download and preprocess HCES 2023-24 data from the MoSPI microdata
+website.
+
+We assume that the `MOSPI_API_KEY` environment variable has been set
+prior to running the code in this document.
+
+```{r}
+library(mmdh)
+## confirm ID no
+dlist <- list_datasets(api_key = Sys.getenv("MOSPI_API_KEY"))
+subset(dlist, grepl("hces", idno, ignore.case = TRUE))
+```
+
+The files available for `idno = "DDI-IND-MOSPI-NSS-HCES23-24"` can be
+listed using
+
+```{r}
+hces202324_files <- list_files("DDI-IND-MOSPI-NSS-HCES23-24")
+hces202324_files
+```
+
+  
+
+</textarea>
+</html>
+
+<!-- 
+Local Variables:
+mode: poly-markdown+r
+End:
+-->
+
