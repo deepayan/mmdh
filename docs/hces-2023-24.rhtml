@@ -25,19 +25,22 @@ hces202324_files
 ```
 
 As we can see, the data are available in several formats. We will use
-the SPSS format files.
+the SPSS format files. We specify a destination folder to download the
+corresponding ZIP file if it does not already exist.
 
 ```{r}
 DESTDIR <- "HCES23-24"
 ZIPFILE <- file.path(DESTDIR, "HCES_Data_2023-24_SPSS.zip")
 if (!dir.exists(DESTDIR)) dir.create(DESTDIR)
-download_file(id = "DDI-IND-MOSPI-NSS-HCES23-24",
-              base64 = "SENFU19EYXRhXzIwMjMtMjRfU1BTUy56aXA",
-              destfile = ZIPFILE)
+if (!file.exists(ZIPFILE))
+    download_file(id = "DDI-IND-MOSPI-NSS-HCES23-24",
+                  base64 = "SENFU19EYXRhXzIwMjMtMjRfU1BTUy56aXA",
+                  destfile = ZIPFILE)
 list.files(DESTDIR)
 ```
  
-Next we unzip the downloaded file.
+Next we unzip the downloaded file. This is likely to take some time,
+as the files are quite large.
 
 ```{r}
 unzip(ZIPFILE, exdir = DESTDIR)
@@ -46,8 +49,59 @@ list.files(DESTDIR)
 ```
 
 Our next task is to read these files, clean them up, remove repeated
-columns, and save them in the R binary format. First, we renames these
+columns, and save them in the R binary format. First, we rename these
 files.
+
+```{r}
+savfiles2 <- substring(savfiles, 1, 10) |> paste0(".sav")
+savfiles2 <- gsub(" - ", "", savfiles2, fixed = TRUE)
+savfiles2
+file.rename(file.path(DESTDIR, "HCES_Data_2023-24_SPSS", savfiles),
+            file.path(DESTDIR, "HCES_Data_2023-24_SPSS", savfiles2)) |> stopifnot()
+list.files(file.path(DESTDIR, "HCES_Data_2023-24_SPSS"))
+```
+
+Finally, we read these SAV files into R. In addition to the
+observations, each SAV file repeats several columns related to survey
+design. The names of these columns are stored in the __mmdh__ package:
+
+```{r}
+HCES_2324_survey_vars
+```
+
+We will remove these (redundant) columns during conversion, instead
+adding a unique household identifier. Of course, we will also need the
+survey variables for analysis, so we store them separately as "LEVEL
+0" data.
+
+```{r}
+SAVDIR <- file.path(DESTDIR, "HCES_Data_2023-24_SPSS")
+dir.create(RDSDIR <- file.path(DESTDIR, "HCES_Data_2023-24_RDS"))
+level00 <- read_hces_sav(file.path(SAVDIR, "LEVEL01.sav"),
+                         keep = HCES_2324_survey_vars)
+names(level00)
+saveRDS(level00, file = file.path(RDSDIR, "level00.rds"))
+```
+
+Finally, we convert all the SPSS data files and save in the R binary
+format.
+
+```{r}
+sav2rds <- function(filename) {
+    message("Processing ", filename)
+    d <- read_hces_sav(file.path(SAVDIR, filename),
+                       drop = HCES_2324_survey_vars)
+    out <- gsub(".sav", ".rds", filename, fixed = TRUE)
+    saveRDS(d, file = file.path(RDSDIR, out))
+}
+sapply(savfiles2, sav2rds) |> invisible()
+```
+
+The converted files should not be available.
+
+```{r}
+list.files(RDSDIR)
+```
 
 
 </textarea>

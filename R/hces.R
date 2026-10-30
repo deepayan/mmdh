@@ -32,15 +32,15 @@
 
 make_hces_hh_id <- function(data)
 {
-  to_string <- function(s, format) {
-    trimws(s) |> as.numeric() |> sprintf(fmt = format)
-  }
-  with(data,
-       sprintf("%s%s-%s-%s%s", 
-               Survey_Name, Year,
-               to_string(FSU_Serial_No, "%05d"), 
-               to_string(Second_Stage_Stratum_No, "%01d"), 
-               to_string(Sample_Household_No, "%02d")))
+    to_string <- function(s, format) {
+        trimws(s) |> as.numeric() |> sprintf(fmt = format)
+    }
+    with(data,
+         sprintf("%s%s-%s-%s%s", 
+                 Survey_Name, Year,
+                 to_string(FSU_Serial_No, "%05d"), 
+                 to_string(Second_Stage_Stratum_No, "%01d"), 
+                 to_string(Sample_Household_No, "%02d")))
 }
 
 read_hces_sav <- function(file, keep = NULL, drop = NULL)
